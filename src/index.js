@@ -1,2 +1,5 @@
 'use strict';
-module.exports = document.write("Ok");
+
+var language = 'es2015';
+
+module.exports = document.write(`Ok from ${language}`);

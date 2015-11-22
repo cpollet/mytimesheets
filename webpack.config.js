@@ -7,8 +7,15 @@ module.exports = {
     devtool: 'source-map',
     module: {
         loaders: [
-            {test: /\.css/, loaders: ['style', 'css']}
+            {test: /\.css$/, loaders: ['style', 'css']},
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: {
+                    presets: ['es2015']
+                }
+            }
         ]
-
     }
 };
