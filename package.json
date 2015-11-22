@@ -1,0 +1,24 @@
+{
+  "name": "mytimesheets",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --inline --hot --progress --colors --content-base public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpollet/mytimesheets.git"
+  },
+  "author": "Christophe Pollet",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/cpollet/mytimesheets/issues"
+  },
+  "homepage": "https://github.com/cpollet/mytimesheets#readme",
+  "devDependencies": {
+    "webpack": "^1.12.8",
+    "webpack-dev-server": "^1.12.1"
+  }
+}
