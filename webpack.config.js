@@ -1,3 +1,5 @@
+var path = require('path');
+
 module.exports = {
     entry: './src/index.js',
     output: {
@@ -7,6 +9,11 @@ module.exports = {
     devtool: 'source-map',
     module: {
         loaders: [
+            {
+                test: /\.scss$/,
+                include: path.join(__dirname, 'src'),
+                loaders: ['style', 'css', 'sass']
+            },
             {
                 test: /\.css$/,
                 loaders: ['style', 'css']
