@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --inline --hot --progress --colors --content-base public"
+    "start": "webpack-dev-server --inline --hot --progress --colors --content-base public",
+    "deploy": "NODE_ENV=production webpack -p --display-chunks --display-reasons"
   },
   "repository": {
     "type": "git",
