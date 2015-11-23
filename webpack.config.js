@@ -1,9 +1,9 @@
 var path = require('path');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/main.js',
     output: {
-        path: __dirname + '/public',
+        path: path.join(__dirname, '/public'),
         filename: 'bundle.js'
     },
     devtool: 'source-map',
@@ -16,11 +16,12 @@ module.exports = {
             },
             {
                 test: /\.css$/,
+                include: path.join(__dirname, 'src'),
                 loaders: ['style', 'css']
             },
             {
                 test: /\.jsx?$/,
-                exclude: /node_modules/,
+                include: path.join(__dirname, 'src'),
                 loader: 'babel',
                 query: {
                     presets: ['es2015', 'react']
