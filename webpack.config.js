@@ -7,13 +7,16 @@ module.exports = {
     devtool: 'source-map',
     module: {
         loaders: [
-            {test: /\.css$/, loaders: ['style', 'css']},
             {
-                test: /\.js$/,
+                test: /\.css$/,
+                loaders: ['style', 'css']
+            },
+            {
+                test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loader: 'babel',
                 query: {
-                    presets: ['es2015']
+                    presets: ['es2015', 'react']
                 }
             }
         ]

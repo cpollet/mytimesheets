@@ -1,5 +1,7 @@
 'use strict';
 
-var language = 'es2015';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './components/App.jsx';
 
-module.exports = document.write(`Ok from ${language}`);
+ReactDOM.render(<App />, document.getElementById('container'));
