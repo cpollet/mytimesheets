@@ -1,7 +1,9 @@
 'use strict';
 
 import React from 'react';
-import TableContainer from './TableContainer.jsx';
+import Container from './Container.jsx';
+
+import {Button} from 'react-semantify';
 
 class App extends React.Component {
     constructor() {
@@ -10,9 +12,9 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
-
-            </div>
+            <Container>
+                <Button>Click me</Button>
+            </Container>
         );
     }
 }

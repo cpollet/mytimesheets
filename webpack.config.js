@@ -16,7 +16,10 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                include: path.join(__dirname, 'src'),
+                includes: [
+                    path.join(__dirname, 'src'),
+                    path.join(__dirname, 'semantic')
+                ],
                 loaders: ['style', 'css']
             },
             {
@@ -26,6 +29,10 @@ module.exports = {
                 query: {
                     presets: ['es2015', 'react']
                 }
+            },
+            {
+                test: /\.(eot|woff|woff2|ttf|svg|png|jpg)$/,
+                loader: 'url-loader?limit=30000&name=[name]-[hash].[ext]'
             }
         ]
     }
