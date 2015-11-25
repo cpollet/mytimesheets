@@ -10,10 +10,14 @@ class App extends React.Component {
         super();
     }
 
+    _onClick() {
+        console.log('clicked');
+    }
+
     render() {
         return (
             <Container>
-                <Button>Click me</Button>
+                <Button onClick={this._onClick}>Click me</Button>
             </Container>
         );
     }
