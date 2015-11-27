@@ -2,18 +2,16 @@
 
 import React from 'react';
 
-class Container extends React.Component {
-    constructor() {
-        super();
-    }
+import ClassNameEnhance from '../lib/ClassNameEnhance.jsx';
 
+class Container extends React.Component {
     render() {
         return (
-           <div className="ui container">
+           <div className={this.props.className} style={this.props.style}>
                {this.props.children}
            </div>
         );
     }
 }
 
-export default Container;
+export default ClassNameEnhance(Container, 'ui container');
