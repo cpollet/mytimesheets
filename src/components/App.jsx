@@ -4,9 +4,7 @@ import React from 'react';
 import {Button} from 'react-semantify';
 
 import Container from './Container.jsx';
-import Table from './Table.jsx';
-import EntryRow from './EntryRow.jsx';
-
+import EntryTable from './EntryTable.jsx';
 
 class App extends React.Component {
     constructor() {
@@ -14,7 +12,7 @@ class App extends React.Component {
     }
 
     displaySummary() {
-        console.log('clicked');
+        console.log('summary');
     }
 
     reset() {
@@ -25,26 +23,7 @@ class App extends React.Component {
         return (
             <Container style={{margin: '10px'}}>
 
-                <Table className="very basic">
-                    <thead>
-                    <tr>
-                        <th className="two wide">Time start</th>
-                        <th>Comment</th>
-                        <th className="two wide">Duration</th>
-                        <th className="two wide"/>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <EntryRow/>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th colSpan="2"/>
-                        <th>00:00</th>
-                        <th></th>
-                    </tr>
-                    </tfoot>
-                </Table>
+                <EntryTable/>
 
                 <div className="ui grid">
                     <div className="sixteen wide right aligned column">
