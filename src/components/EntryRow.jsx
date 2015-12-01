@@ -11,29 +11,22 @@ class EntryRow extends React.Component {
         this.resetState();
     }
 
-    resetState() {
-        this.state = {
-            dirty: false,
-            text: this.props.initialText,
-            time: this.props.initialTime
-        };
-    }
-
-    _onTextChange(e) {
+    //region event handlers
+    onTextChange(e) {
         this.setState(assign(this.state, {
             dirty: true,
             text: e.target.value
         }));
     }
 
-    _onTimeChange(e) {
+    onTimeChange(e) {
         this.setState(assign(this.state, {
             dirty: true,
             time: e.target.value
         }));
     }
 
-    _onBlur(e) {
+    onKeyDown(e) {
         if (e.keyCode == 9) {
             if (this.shouldSave()) {
                 if (this.isExistingEntry()) {
@@ -58,6 +51,20 @@ class EntryRow extends React.Component {
         }
     }
 
+    onClickDelete() {
+        EntriesAction.deleteEntry(this.props.id);
+    }
+
+    //endregion
+
+    resetState() {
+        this.state = {
+            dirty: false,
+            text: this.props.initialText,
+            time: this.props.initialTime
+        };
+    }
+
     isExistingEntry() {
         return typeof this.props.id !== 'undefined';
     }
@@ -74,7 +81,10 @@ class EntryRow extends React.Component {
         if (this.isExistingEntry()) {
             buttons = (
                 <div>
-                    <button className="ui compact negative icon button">
+                    <button
+                        className="ui compact negative icon button"
+                        onClick={this.onClickDelete.bind(this)}
+                    >
                         <i className="minus icon"/>
                     </button>
                 </div>
@@ -89,8 +99,8 @@ class EntryRow extends React.Component {
                             ref="timeInput"
                             type="time"
                             value={this.state.time}
-                            onChange={this._onTimeChange.bind(this)}
-                            onKeyDown={this._onBlur.bind(this)}
+                            onChange={this.onTimeChange.bind(this)}
+                            onKeyDown={this.onKeyDown.bind(this)}
                         />
                     </Input>
                 </td>
@@ -100,8 +110,8 @@ class EntryRow extends React.Component {
                             type="text"
                             placeholder="Comment"
                             value={this.state.text}
-                            onChange={this._onTextChange.bind(this)}
-                            onKeyDown={this._onBlur.bind(this)}
+                            onChange={this.onTextChange.bind(this)}
+                            onKeyDown={this.onKeyDown.bind(this)}
                         />
                     </Input>
                 </td>

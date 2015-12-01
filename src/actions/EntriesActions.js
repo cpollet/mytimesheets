@@ -10,6 +10,10 @@ class EntriesActions {
     updateEntry(entry) {
         this.dispatch(entry);
     }
+
+    deleteEntry(id) {
+        this.dispatch(id);
+    }
 }
 
 export default alt.createActions(EntriesActions);

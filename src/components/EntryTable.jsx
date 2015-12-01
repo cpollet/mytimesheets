@@ -11,12 +11,9 @@ class EntryTable extends React.Component {
         this.state = EntriesStore.getState();
     }
 
-    _onChange(state) {
-        this.setState(state);
-    }
-
+    //region react
     componentDidMount() {
-        this.onChangeHandler = this._onChange.bind(this);
+        this.onChangeHandler = this.onChange.bind(this);
 
         EntriesStore.listen(this.onChangeHandler);
     }
@@ -24,6 +21,13 @@ class EntryTable extends React.Component {
     componentWillUnmount() {
         EntriesStore.unlisten(this.onChangeHandler);
     }
+    //endregion
+
+    //region callbacks
+    onChange(state) {
+        this.setState(state);
+    }
+    //endregion
 
     render() {
         let rows = this.state.entries.map(
@@ -48,7 +52,7 @@ class EntryTable extends React.Component {
                 </thead>
                 <tbody>
                 {rows}
-                <EntryRow ref="newRow"/>
+                <EntryRow/>
                 </tbody>
                 <tfoot>
                 <tr>

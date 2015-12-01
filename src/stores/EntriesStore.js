@@ -16,7 +16,8 @@ class EntriesStore {
 
         this.bindListeners({
             handleAddEntry: EntriesActions.ADD_ENTRY,
-            handleUpdateEntry: EntriesActions.UPDATE_ENTRY
+            handleUpdateEntry: EntriesActions.UPDATE_ENTRY,
+            handleDeleteEntry: EntriesActions.DELETE_ENTRY
         });
     }
 
@@ -47,6 +48,11 @@ class EntriesStore {
         });
 
         this._sort();
+    }
+
+    handleDeleteEntry(id) {
+        console.log('removing', id)
+        _.remove(this.entries, {id});
     }
 }
 
