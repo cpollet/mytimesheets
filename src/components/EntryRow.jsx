@@ -115,7 +115,7 @@ class EntryRow extends React.Component {
                         />
                     </Input>
                 </td>
-                <td>00:00</td>
+                <td>{this.props.duration}</td>
                 <td>
                     {buttons}
                 </td>

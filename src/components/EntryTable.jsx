@@ -37,6 +37,7 @@ class EntryTable extends React.Component {
                     id={entry.id}
                     initialText={entry.text}
                     initialTime={entry.time}
+                    duration={entry.duration}
                 />
         );
 
@@ -57,7 +58,7 @@ class EntryTable extends React.Component {
                 <tfoot>
                 <tr>
                     <th colSpan="2"/>
-                    <th>00:00</th>
+                    <th>{this.state.totalDuration}</th>
                     <th/>
                 </tr>
                 </tfoot>

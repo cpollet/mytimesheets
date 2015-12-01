@@ -8,11 +8,12 @@ import EntriesActions from '../actions/EntriesActions';
 
 class EntriesStore {
     constructor() {
-        this.id = 1;
-        this.entries = [
-            {id: 0, text: 'Admin', time: '08:15', _time: moment('08:15', 'HH:mm')},
-            {id: 1, text: 'Stand up', time: '09:00', _time: moment('09:00', 'HH:mm')}
-        ];
+        this.entries = [];
+        this.id = 0;
+
+        this.handleAddEntry({text: '...', time: '08:45'});
+        this.handleAddEntry({text: 'stand up', time: '09:00'});
+        this.handleAddEntry({text: '...', time: '09:15'});
 
         this.bindListeners({
             handleAddEntry: EntriesActions.ADD_ENTRY,
@@ -21,6 +22,7 @@ class EntriesStore {
         });
     }
 
+    //region handlers
     handleAddEntry(entry) {
         this.id++;
 
@@ -31,11 +33,8 @@ class EntriesStore {
             _time: moment(entry.time, 'HH:mm')
         });
 
-        this._sort();
-    }
-
-    _sort() {
-        this.entries = _.sortBy(this.entries, (entry) => entry._time);
+        this.sort();
+        this.computeDurations();
     }
 
     handleUpdateEntry(entry) {
@@ -47,12 +46,49 @@ class EntriesStore {
             _time: moment(entry.time, 'HH:mm')
         });
 
-        this._sort();
+        this.sort();
+        this.computeDurations();
     }
 
     handleDeleteEntry(id) {
-        console.log('removing', id)
         _.remove(this.entries, {id});
+        this.computeDurations();
+    }
+
+    //endregion
+
+    sort() {
+        this.entries = _.sortBy(this.entries, (entry) => entry._time);
+    }
+
+    computeDurations() {
+        let hhmm = function (minutes) {
+            let hours = Math.floor(minutes / 60);
+            minutes = minutes % 60;
+            return `0${hours}`.slice(-2) + ':' + `0${minutes}`.slice(-2);
+        };
+
+        if (this.entries.length == 0) {
+            return;
+        }
+
+        let totalDuration = 0;
+
+        assign(this.entries[this.entries.length - 1], {
+            _duration: 0,
+            duration: '-'
+        });
+        for (let i = 0; i < this.entries.length - 1; i++) {
+            let first = this.entries[i];
+            let second = this.entries[i + 1];
+
+            this.entries[i]._duration = second._time.diff(first._time, 'minutes');
+            this.entries[i].duration = hhmm(this.entries[i]._duration);
+
+            totalDuration += this.entries[i]._duration;
+        }
+
+        this.totalDuration = hhmm(totalDuration);
     }
 }
 
