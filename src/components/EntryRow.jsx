@@ -1,29 +1,29 @@
 'use strict';
 
 import React from 'react';
-import _ from 'lodash';
 import {Input} from 'react-semantify';
+import ConfirmationModal from './ConfirmationModal.jsx';
 import EntriesAction from '../actions/EntriesActions';
 
 class EntryRow extends React.Component {
     constructor(props) {
         super(props);
-        this.resetState();
+        this.state = this.initialState();
     }
 
     //region event handlers
     onTextChange(e) {
-        this.setState(_.assign(this.state, {
+        this.setState({
             dirty: true,
             text: e.target.value
-        }));
+        });
     }
 
     onTimeChange(e) {
-        this.setState(_.assign(this.state, {
+        this.setState({
             dirty: true,
             time: e.target.value
-        }));
+        });
     }
 
     onKeyDown(e) {
@@ -41,7 +41,7 @@ class EntryRow extends React.Component {
                         time: this.state.time
                     });
 
-                    this.resetState();
+                    this.setState(this.initialState());
 
                     e.preventDefault();
 
@@ -52,14 +52,26 @@ class EntryRow extends React.Component {
     }
 
     onClickDelete() {
-        EntriesAction.deleteEntry(this.props.id);
+        this.setState({
+            willDelete: true
+        });
     }
 
+    onDeleteConfirmation(confirmed) {
+        this.setState({
+            willDelete: false
+        });
+
+        if (confirmed) {
+            EntriesAction.deleteEntry(this.props.id);
+        }
+    }
     //endregion
 
-    resetState() {
-        this.state = {
+    initialState() {
+        return {
             dirty: false,
+            willDelete: false,
             text: this.props.initialText,
             time: this.props.initialTime
         };
@@ -81,6 +93,13 @@ class EntryRow extends React.Component {
         if (this.isExistingEntry()) {
             buttons = (
                 <div>
+                    <ConfirmationModal
+                        confirmationTitle="Delete entry"
+                        confirmationText="Are you sure you want to delete this entries?"
+                        confirmationYes="Yes, delete it"
+                        visible={this.state.willDelete}
+                        onConfirmation={this.onDeleteConfirmation.bind(this)}
+                    />
                     <button
                         className="ui compact negative icon button"
                         onClick={this.onClickDelete.bind(this)}
