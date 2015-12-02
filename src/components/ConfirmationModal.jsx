@@ -3,13 +3,6 @@
 import React from 'react';
 
 class ConfirmationModal extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            visible: props.visible
-        }
-    }
-
     //region event handlers
     onClickYes() {
         this.props.onConfirmation(true);
