@@ -8,7 +8,7 @@ var ClassNameEnhance = (ComposedComponent, classNames) => class extends React.Co
             classNames = `${classNames} ${this.props.className}`;
         }
 
-        this.props = Object.assign({}, this.props, {className: classNames});
+        this.props = _.assign({}, this.props, {className: classNames});
 
         return <ComposedComponent {...this.props} {...this.state} />;
     }

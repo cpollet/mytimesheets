@@ -1,6 +1,5 @@
 'use strict';
 
-import assign from 'object-assign';
 import moment from 'moment';
 import _ from 'lodash';
 import alt from '../alt';
@@ -40,7 +39,7 @@ class EntriesStore {
     handleUpdateEntry(entry) {
         let index = _.findIndex(this.entries, {id: entry.id});
 
-        this.entries[index] = assign(this.entries[index], {
+        this.entries[index] = _.assign(this.entries[index], {
             text: entry.text,
             time: entry.time,
             _time: moment(entry.time, 'HH:mm')
@@ -74,7 +73,7 @@ class EntriesStore {
 
         let totalDuration = 0;
 
-        assign(this.entries[this.entries.length - 1], {
+        _.assign(this.entries[this.entries.length - 1], {
             _duration: 0,
             duration: '-'
         });

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import assign from 'object-assign';
+import _ from 'lodash';
 import {Input} from 'react-semantify';
 import EntriesAction from '../actions/EntriesActions';
 
@@ -13,14 +13,14 @@ class EntryRow extends React.Component {
 
     //region event handlers
     onTextChange(e) {
-        this.setState(assign(this.state, {
+        this.setState(_.assign(this.state, {
             dirty: true,
             text: e.target.value
         }));
     }
 
     onTimeChange(e) {
-        this.setState(assign(this.state, {
+        this.setState(_.assign(this.state, {
             dirty: true,
             time: e.target.value
         }));
