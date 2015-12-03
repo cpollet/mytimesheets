@@ -5,39 +5,49 @@ import {Button} from 'react-semantify';
 
 import Container from './Container.jsx';
 import EntryTable from './EntryTable.jsx';
+import ConfirmedButton from './ConfirmedButton.jsx';
 
 class App extends React.Component {
     constructor() {
         super();
     }
 
-    displaySummary() {
+    //region event handlers
+    onDisplaySummary() {
         console.log('summary');
     }
 
-    reset() {
+    onReset() {
         console.log('reset');
     }
+    //endregion
 
     render() {
         return (
             <Container style={{margin: '10px'}}>
-
                 <EntryTable/>
 
                 <div className="ui grid">
                     <div className="sixteen wide right aligned column">
-                        <Button className="negative labeled icon" onClick={this.reset}>
-                            <i className="remove icon"/>
-                            Reset
-                        </Button>
-                        <Button className="positive labeled icon" onClick={this.displaySummary}>
+
+                        <ConfirmedButton
+                            confirmationTitle="Reset timesheet"
+                            confirmationText="Are you sure you want to reset the current timesheet?"
+                            confirmationYes="Yes, reset everthing"
+                            confirmationNo="No"
+                            onClick={this.onReset.bind(this)}
+                        >
+                            <Button className="negative labeled icon">
+                                <i className="remove icon"/>
+                                Reset
+                            </Button>
+                        </ConfirmedButton>
+                        <Button className="positive labeled icon" onClick={this.onDisplaySummary}>
                             <i className="checkmark icon"/>
                             Summary
                         </Button>
                     </div>
                 </div>
-
             </Container>
         );
     }

@@ -11,6 +11,7 @@ class ConfirmationModal extends React.Component {
     onClickNo() {
         this.props.onConfirmation(false);
     }
+
     //endregion
 
     render() {
@@ -40,7 +41,6 @@ class ConfirmationModal extends React.Component {
                             <i className="checkmark icon"/>
                             {this.props.confirmationYes}
                         </div>
-
                     </div>
                 </div>
             </div>

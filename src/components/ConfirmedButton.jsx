@@ -32,7 +32,7 @@ class ConfirmedButton extends React.Component {
 
     render() {
         return (
-            <div>
+            <span>
                 <ConfirmationModal
                     confirmationTitle={this.props.confirmationTitle}
                     confirmationText={this.props.confirmationText}
@@ -41,10 +41,10 @@ class ConfirmedButton extends React.Component {
                     visible={this.state.modalDisplayed}
                     onConfirmation={this.onConfirmation.bind(this)}
                 />
-                <div onClick={this.onClick.bind(this)}>
+                <span onClick={this.onClick.bind(this)}>
                     {this.props.children}
-                </div>
-            </div>
+                </span>
+            </span>
         );
     }
 }
