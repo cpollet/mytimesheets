@@ -1,8 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {Input} from 'react-semantify';
-import ConfirmationModal from './ConfirmationModal.jsx';
+import {Input, Button} from 'react-semantify';
+import ConfirmedButton from './ConfirmedButton.jsx';
 import EntriesAction from '../actions/EntriesActions';
 
 class EntryRow extends React.Component {
@@ -33,26 +33,13 @@ class EntryRow extends React.Component {
     }
 
     onClickDelete() {
-        this.setState({
-            willDelete: true
-        });
-    }
-
-    onDeleteConfirmation(confirmed) {
-        this.setState({
-            willDelete: false
-        });
-
-        if (confirmed) {
-            EntriesAction.deleteEntry(this.props.id);
-        }
+        EntriesAction.deleteEntry(this.props.id);
     }
     //endregion
 
     initialState() {
         return {
             dirty: false,
-            willDelete: false,
             text: this.props.initialText,
             time: this.props.initialTime
         };
@@ -94,21 +81,16 @@ class EntryRow extends React.Component {
 
         if (this.isExistingEntry()) {
             buttons = (
-                <div>
-                    <ConfirmationModal
-                        confirmationTitle="Delete entry"
-                        confirmationText="Are you sure you want to delete this entries?"
-                        confirmationYes="Yes, delete it"
-                        visible={this.state.willDelete}
-                        onConfirmation={this.onDeleteConfirmation.bind(this)}
-                    />
-                    <button
-                        className="ui compact negative icon button"
-                        onClick={this.onClickDelete.bind(this)}
-                    >
+                <ConfirmedButton
+                    confirmationTitle="Delete entry"
+                    confirmationText="Are you sure you want to delete this entries?"
+                    confirmationYes="Yes, delete it"
+                    onClick={this.onClickDelete.bind(this)}
+                >
+                    <Button className="compact negative icon">
                         <i className="minus icon"/>
-                    </button>
-                </div>
+                    </Button>
+                </ConfirmedButton>
             );
         }
 
@@ -137,9 +119,7 @@ class EntryRow extends React.Component {
                     </Input>
                 </td>
                 <td>{this.props.duration}</td>
-                <td>
-                    {buttons}
-                </td>
+                <td>{buttons}</td>
             </tr>
         );
     }
