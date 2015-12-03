@@ -32,11 +32,11 @@ class ConfirmationModal extends React.Component {
                         <p>{this.props.confirmationText}</p>
                     </div>
                     <div className="actions">
-                        <div className="ui red button" onClick={this.onClickNo.bind(this)}>
+                        <div className="ui compact red button" onClick={this.onClickNo.bind(this)}>
                             <i className="remove icon"/>
                             {this.props.confirmationNo}
                         </div>
-                        <div className="ui green button" onClick={this.onClickYes.bind(this)}>
+                        <div className="ui compact green button" onClick={this.onClickYes.bind(this)}>
                             <i className="checkmark icon"/>
                             {this.props.confirmationYes}
                         </div>

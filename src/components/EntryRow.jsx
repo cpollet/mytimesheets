@@ -27,27 +27,8 @@ class EntryRow extends React.Component {
     }
 
     onKeyDown(e) {
-        if (e.keyCode == 9) {
-            if (this.shouldSave()) {
-                if (this.isExistingEntry()) {
-                    EntriesAction.updateEntry({
-                        id: this.props.id,
-                        text: this.state.text,
-                        time: this.state.time
-                    });
-                } else {
-                    EntriesAction.addEntry({
-                        text: this.state.text,
-                        time: this.state.time
-                    });
-
-                    this.setState(this.initialState());
-
-                    e.preventDefault();
-
-                    this.refs.timeInput.focus();
-                }
-            }
+        if (e.keyCode === 9 || e.keyCode === 13) {
+            this.save();
         }
     }
 
@@ -79,6 +60,27 @@ class EntryRow extends React.Component {
 
     isExistingEntry() {
         return typeof this.props.id !== 'undefined';
+    }
+
+    save() {
+        if (this.shouldSave()) {
+            if (this.isExistingEntry()) {
+                EntriesAction.updateEntry({
+                    id: this.props.id,
+                    text: this.state.text,
+                    time: this.state.time
+                });
+            } else {
+                EntriesAction.addEntry({
+                    text: this.state.text,
+                    time: this.state.time
+                });
+
+                this.setState(this.initialState());
+
+                this.refs.timeInput.focus();
+            }
+        }
     }
 
     shouldSave() {
