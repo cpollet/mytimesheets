@@ -9,10 +9,9 @@ class EntriesStore {
     constructor() {
         this.entries = [];
         this.id = 0;
+        this.loading = false;
 
-        this.handleAddEntry({text: '...', time: '08:45', workingTime: true});
-        this.handleAddEntry({text: 'stand up', time: '09:00', workingTime: true});
-        this.handleAddEntry({text: '...', time: '09:15', workingTime: true});
+        this.load();
 
         this.bindListeners({
             handleAddEntry: EntriesActions.ADD_ENTRY,
@@ -36,6 +35,7 @@ class EntriesStore {
 
         this.sort();
         this.computeDurations();
+        this.save();
     }
 
     handleUpdateEntry(entry) {
@@ -50,17 +50,20 @@ class EntriesStore {
 
         this.sort();
         this.computeDurations();
+        this.save();
     }
 
     handleDeleteEntry(id) {
         _.remove(this.entries, {id});
         this.computeDurations();
+        this.save();
     }
 
     handleDeleteAll() {
         this.entries = [];
         this.id = 0;
         this.computeDurations();
+        this.save();
     }
 
     //endregion
@@ -100,6 +103,37 @@ class EntriesStore {
         }
 
         this.totalDuration = hhmm(totalDuration);
+    }
+
+    save() {
+        if (this.loading) {
+            return;
+        }
+
+        let entries = _.map(this.entries, (entry) => {
+            return {
+                text: entry.text,
+                time: entry.time,
+                workingTime: entry.workingTime
+            }
+        });
+
+        localStorage.setItem('entries', JSON.stringify(entries));
+    }
+
+    load() {
+        this.loading = true;
+
+        this.entries = [];
+        this.id = 0;
+
+        let entries = JSON.parse(localStorage.getItem('entries'));
+
+        _.forEach(entries, (entry) => {
+            this.handleAddEntry(entry);
+        });
+
+        this.loading = false;
     }
 }
 
