@@ -55,7 +55,7 @@ class EntryTable extends React.Component {
                 </thead>
                 <tbody>
                 {rows}
-                <EntryRow/>
+                <EntryRow workingTime={true}/>
                 </tbody>
                 <tfoot>
                 <tr>
