@@ -14,6 +14,10 @@ class EntriesActions {
     deleteEntry(id) {
         this.dispatch(id);
     }
+
+    deleteAll(id) {
+        this.dispatch();
+    }
 }
 
 export default alt.createActions(EntriesActions);

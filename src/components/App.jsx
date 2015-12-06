@@ -7,6 +7,8 @@ import Container from './Container.jsx';
 import EntryTable from './EntryTable.jsx';
 import ConfirmedButton from './ConfirmedButton.jsx';
 
+import EntriesAction from '../actions/EntriesActions';
+
 class App extends React.Component {
     constructor() {
         super();
@@ -18,8 +20,9 @@ class App extends React.Component {
     }
 
     onReset() {
-        console.log('reset');
+        EntriesAction.deleteAll();
     }
+
     //endregion
 
     render() {

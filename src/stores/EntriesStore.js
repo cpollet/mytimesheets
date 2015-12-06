@@ -17,7 +17,8 @@ class EntriesStore {
         this.bindListeners({
             handleAddEntry: EntriesActions.ADD_ENTRY,
             handleUpdateEntry: EntriesActions.UPDATE_ENTRY,
-            handleDeleteEntry: EntriesActions.DELETE_ENTRY
+            handleDeleteEntry: EntriesActions.DELETE_ENTRY,
+            handleDeleteAll: EntriesActions.DELETE_ALL
         });
     }
 
@@ -56,6 +57,12 @@ class EntriesStore {
         this.computeDurations();
     }
 
+    handleDeleteAll() {
+        this.entries = [];
+        this.id = 0;
+        this.computeDurations();
+    }
+
     //endregion
 
     sort() {
@@ -66,10 +73,11 @@ class EntriesStore {
         let hhmm = function (minutes) {
             let hours = Math.floor(minutes / 60);
             minutes = minutes % 60;
-            return `0${hours}`.slice(-2) + ':' + `0${minutes}`.slice(-2);
+            return hours + ':' + `0${minutes}`.slice(-2);
         };
 
         if (this.entries.length == 0) {
+            this.totalDuration = '0:00';
             return;
         }
 
