@@ -10,9 +10,9 @@ class EntriesStore {
         this.entries = [];
         this.id = 0;
 
-        this.handleAddEntry({text: '...', time: '08:45'});
-        this.handleAddEntry({text: 'stand up', time: '09:00'});
-        this.handleAddEntry({text: '...', time: '09:15'});
+        this.handleAddEntry({text: '...', time: '08:45', workingTime: true});
+        this.handleAddEntry({text: 'stand up', time: '09:00', workingTime: true});
+        this.handleAddEntry({text: '...', time: '09:15', workingTime: true});
 
         this.bindListeners({
             handleAddEntry: EntriesActions.ADD_ENTRY,
@@ -29,6 +29,7 @@ class EntriesStore {
             id: this.id,
             text: entry.text,
             time: entry.time,
+            workingTime: entry.workingTime,
             _time: moment(entry.time, 'HH:mm')
         });
 
@@ -42,6 +43,7 @@ class EntriesStore {
         this.entries[index] = _.assign(this.entries[index], {
             text: entry.text,
             time: entry.time,
+            workingTime: entry.workingTime,
             _time: moment(entry.time, 'HH:mm')
         });
 
@@ -84,7 +86,9 @@ class EntriesStore {
             this.entries[i]._duration = second._time.diff(first._time, 'minutes');
             this.entries[i].duration = hhmm(this.entries[i]._duration);
 
-            totalDuration += this.entries[i]._duration;
+            if (this.entries[i].workingTime) {
+                totalDuration += this.entries[i]._duration;
+            }
         }
 
         this.totalDuration = hhmm(totalDuration);

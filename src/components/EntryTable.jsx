@@ -38,6 +38,7 @@ class EntryTable extends React.Component {
                     initialText={entry.text}
                     initialTime={entry.time}
                     duration={entry.duration}
+                    workingTime={entry.workingTime}
                 />
         );
 
@@ -48,6 +49,7 @@ class EntryTable extends React.Component {
                     <th className="two wide">Time start</th>
                     <th>Comment</th>
                     <th className="two wide">Duration</th>
+                    <th className="two wide">Working time</th>
                     <th className="two wide"/>
                 </tr>
                 </thead>
@@ -59,6 +61,7 @@ class EntryTable extends React.Component {
                 <tr>
                     <th colSpan="2"/>
                     <th>{this.state.totalDuration}</th>
+                    <th/>
                     <th/>
                 </tr>
                 </tfoot>

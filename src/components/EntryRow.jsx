@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {Input, Button} from 'react-semantify';
+import _ from 'lodash';
+import {Input, Button, Checkbox} from 'react-semantify';
 import ConfirmedButton from './ConfirmedButton.jsx';
 import EntriesAction from '../actions/EntriesActions';
 
@@ -35,13 +36,23 @@ class EntryRow extends React.Component {
     onClickDelete() {
         EntriesAction.deleteEntry(this.props.id);
     }
+
+    onCheckedChange(e) {
+        this.setState({
+            dirty: true,
+            workingTime: e.target.checked
+        }, function() {
+            this.save();
+        });
+    }
     //endregion
 
     initialState() {
         return {
             dirty: false,
             text: this.props.initialText,
-            time: this.props.initialTime
+            time: this.props.initialTime,
+            workingTime: this.props.workingTime
         };
     }
 
@@ -51,17 +62,19 @@ class EntryRow extends React.Component {
 
     save() {
         if (this.shouldSave()) {
+            let entry = {
+                text: this.state.text,
+                time: this.state.time,
+                workingTime: this.state.workingTime
+            };
+
             if (this.isExistingEntry()) {
-                EntriesAction.updateEntry({
-                    id: this.props.id,
-                    text: this.state.text,
-                    time: this.state.time
-                });
+                console.log();
+                EntriesAction.updateEntry(_.assign(entry, {
+                    id: this.props.id
+                }));
             } else {
-                EntriesAction.addEntry({
-                    text: this.state.text,
-                    time: this.state.time
-                });
+                EntriesAction.addEntry(entry);
 
                 this.setState(this.initialState());
 
@@ -77,20 +90,32 @@ class EntryRow extends React.Component {
     }
 
     render() {
-        let buttons;
+        let deletebutton, workingHoursCheckbox;
 
         if (this.isExistingEntry()) {
-            buttons = (
-                <ConfirmedButton
-                    confirmationTitle="Delete entry"
-                    confirmationText="Are you sure you want to delete this entries?"
-                    confirmationYes="Yes, delete it"
-                    onClick={this.onClickDelete.bind(this)}
-                >
-                    <Button className="compact negative icon">
-                        <i className="minus icon"/>
-                    </Button>
-                </ConfirmedButton>
+            deletebutton = (
+                <div>
+                    <ConfirmedButton
+                        confirmationTitle="Delete entry"
+                        confirmationText="Are you sure you want to delete this entries?"
+                        confirmationYes="Yes, delete it"
+                        onClick={this.onClickDelete.bind(this)}
+                    >
+                        <Button className="compact negative icon">
+                            <i className="minus icon"/>
+                        </Button>
+                    </ConfirmedButton>
+                </div>
+            );
+
+            workingHoursCheckbox = (
+                <div>
+                    <div className="ui toggle checkbox">
+                        <input type="checkbox" name="public" defaultChecked={this.state.workingTime}
+                               onChange={this.onCheckedChange.bind(this)}/>
+                        <label/>
+                    </div>
+                </div>
             );
         }
 
@@ -119,7 +144,8 @@ class EntryRow extends React.Component {
                     </Input>
                 </td>
                 <td>{this.props.duration}</td>
-                <td>{buttons}</td>
+                <td>{workingHoursCheckbox}</td>
+                <td>{deletebutton}</td>
             </tr>
         );
     }
