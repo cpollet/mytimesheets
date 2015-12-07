@@ -16,30 +16,47 @@ class InputTime extends React.Component {
     //region event handlers
 
     onChange(e) {
-        if (e.target.value == '') {
-            this.setState({
-                value: e.target.value
-            });
-        } else if (e.target.value.match(InputTime.timeRegex)) {
-            this.setState({
-                value: e.target.value
-            }, function () {
-                this.props.onChange(this.format());
-            });
+        let value = e.target.value;
+        if (value.match(/[0-9]{0,4}/)) {
+            this.updateState(value, false);
+        } else if (value.match(InputTime.timeRegex)) {
+            this.updateState(value, true);
         }
     }
 
     onBlur(e) {
-        if (this.state.value.match(InputTime.timeRegex)) {
-            this.setState({
-                value: this.format()
-            });
-        } else {
-            e.target.focus();
+        let value = this.state.value;
+
+        if (value.match(InputTime.timeRegex)) {
+            this.updateState(this.format(), true);
+            return;
         }
+
+        if (value.match(/[0-9]{0,4}/)) {
+            const minutesLength = 2;
+            let hourLength = value.length - minutesLength;
+            let tmpValue = value.substr(0, hourLength) + ':' + value.substr(hourLength, minutesLength);
+
+            if (tmpValue.match(InputTime.timeRegex)) {
+                this.updateState(tmpValue, true);
+                return;
+            }
+        }
+
+        e.target.focus();
     }
 
     //endregion
+
+    updateState(value, publish) {
+        this.setState({
+            value: value
+        }, function () {
+            if (publish) {
+                this.props.onChange(this.format());
+            }
+        });
+    }
 
     //region published method
 
