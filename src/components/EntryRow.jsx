@@ -104,8 +104,8 @@ class EntryRow extends React.Component {
                         confirmationYes="Yes, delete it"
                         onClick={this.onClickDelete.bind(this)}
                     >
-                        <Button className="compact negative icon">
-                            <i className="minus icon"/>
+                        <Button className="compact mini negative circular icon">
+                            <i className="remove icon"/>
                         </Button>
                     </ConfirmedButton>
                 </div>
