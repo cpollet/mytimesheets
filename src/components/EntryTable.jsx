@@ -12,6 +12,7 @@ class EntryTable extends React.Component {
     }
 
     //region react
+
     componentDidMount() {
         this.onChangeHandler = this.onChange.bind(this);
 
@@ -21,12 +22,14 @@ class EntryTable extends React.Component {
     componentWillUnmount() {
         EntriesStore.unlisten(this.onChangeHandler);
     }
+
     //endregion
 
     //region callbacks
     onChange(state) {
         this.setState(state);
     }
+
     //endregion
 
     render() {

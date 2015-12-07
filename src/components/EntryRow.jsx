@@ -4,6 +4,7 @@ import React from 'react';
 import _ from 'lodash';
 import {Input, Button, Checkbox} from 'react-semantify';
 import ConfirmedButton from './ConfirmedButton.jsx';
+import InputTime from './InputTime.jsx';
 import EntriesAction from '../actions/EntriesActions';
 
 class EntryRow extends React.Component {
@@ -13,6 +14,7 @@ class EntryRow extends React.Component {
     }
 
     //region event handlers
+
     onTextChange(e) {
         this.setState({
             dirty: true,
@@ -20,10 +22,10 @@ class EntryRow extends React.Component {
         });
     }
 
-    onTimeChange(e) {
+    onTimeChange(newValue) {
         this.setState({
             dirty: true,
-            time: e.target.value
+            time: newValue
         });
     }
 
@@ -41,10 +43,11 @@ class EntryRow extends React.Component {
         this.setState({
             dirty: true,
             workingTime: e.target.checked
-        }, function() {
+        }, function () {
             this.save();
         });
     }
+
     //endregion
 
     initialState() {
@@ -77,7 +80,7 @@ class EntryRow extends React.Component {
                 EntriesAction.addEntry(entry);
 
                 this.setState(this.initialState());
-
+                this.refs.timeInput.reset();
                 this.refs.timeInput.focus();
             }
         }
@@ -90,10 +93,10 @@ class EntryRow extends React.Component {
     }
 
     render() {
-        let deletebutton, workingHoursCheckbox;
+        let deleteButton, workingHoursCheckbox;
 
         if (this.isExistingEntry()) {
-            deletebutton = (
+            deleteButton = (
                 <div>
                     <ConfirmedButton
                         confirmationTitle="Delete entry"
@@ -120,17 +123,13 @@ class EntryRow extends React.Component {
         }
 
         return (
-            <tr>
+            <tr className={this.state.trClass}>
                 <td>
-                    <Input>
-                        <input
-                            ref="timeInput"
-                            type="time"
-                            value={this.state.time}
-                            onChange={this.onTimeChange.bind(this)}
-                            onKeyDown={this.onKeyDown.bind(this)}
-                        />
-                    </Input>
+                    <InputTime
+                        ref="timeInput"
+                        initialValue={this.props.initialTime}
+                        onChange={this.onTimeChange.bind(this)}
+                    />
                 </td>
                 <td>
                     <Input className="fluid">
@@ -145,7 +144,7 @@ class EntryRow extends React.Component {
                 </td>
                 <td>{this.props.duration}</td>
                 <td>{workingHoursCheckbox}</td>
-                <td>{deletebutton}</td>
+                <td>{deleteButton}</td>
             </tr>
         );
     }
