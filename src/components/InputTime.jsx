@@ -43,7 +43,9 @@ class InputTime extends React.Component {
             }
         }
 
-        e.target.focus();
+        if (value !== '') {
+            e.target.focus();
+        }
     }
 
     //endregion
