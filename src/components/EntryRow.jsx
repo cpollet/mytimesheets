@@ -48,6 +48,10 @@ class EntryRow extends React.Component {
         });
     }
 
+    onBlur() {
+        this.save();
+    }
+
     //endregion
 
     initialState() {
@@ -55,7 +59,8 @@ class EntryRow extends React.Component {
             dirty: false,
             text: this.props.initialText,
             time: this.props.initialTime,
-            workingTime: this.props.workingTime
+            workingTime: this.props.workingTime,
+            saving: 0
         };
     }
 
@@ -64,26 +69,41 @@ class EntryRow extends React.Component {
     }
 
     save() {
-        if (this.shouldSave()) {
-            let entry = {
-                text: this.state.text,
-                time: this.state.time,
-                workingTime: this.state.workingTime
-            };
-
-            if (this.isExistingEntry()) {
-                console.log();
-                EntriesAction.updateEntry(_.assign(entry, {
-                    id: this.props.id
-                }));
-            } else {
-                EntriesAction.addEntry(entry);
-
-                this.setState(this.initialState());
-                this.refs.timeInput.reset();
-                this.refs.timeInput.focus();
+        this.setState(function (previousState) {
+            return {
+                saving: previousState.saving + 1
             }
-        }
+        }, function () {
+            if (this.state.saving === 1) {
+                if (this.shouldSave()) {
+                    let entry = {
+                        text: this.state.text,
+                        time: this.state.time,
+                        workingTime: this.state.workingTime
+                    };
+
+                    if (this.isExistingEntry()) {
+                        EntriesAction.updateEntry(_.assign(entry, {
+                            id: this.props.id
+                        }));
+
+                        this.setState({
+                            dirty: false
+                        });
+                    } else {
+                        EntriesAction.addEntry(entry);
+
+                        this.setState(this.initialState());
+                        this.refs.timeInput.reset();
+                        this.refs.timeInput.focus();
+                    }
+                }
+
+                this.setState({
+                    saving: 0
+                });
+            }
+        }.bind(this));
     }
 
     shouldSave() {
@@ -123,12 +143,13 @@ class EntryRow extends React.Component {
         }
 
         return (
-            <tr className={this.state.trClass}>
+            <tr>
                 <td>
                     <InputTime
                         ref="timeInput"
                         initialValue={this.props.initialTime}
                         onChange={this.onTimeChange.bind(this)}
+                        onBlur={this.onBlur.bind(this)}
                     />
                 </td>
                 <td>
@@ -139,6 +160,7 @@ class EntryRow extends React.Component {
                             value={this.state.text}
                             onChange={this.onTextChange.bind(this)}
                             onKeyDown={this.onKeyDown.bind(this)}
+                            onBlur={this.onBlur.bind(this)}
                         />
                     </Input>
                 </td>

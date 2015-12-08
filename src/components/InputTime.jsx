@@ -9,7 +9,8 @@ class InputTime extends React.Component {
         super(props);
 
         this.state = {
-            value: props.initialValue
+            value: props.initialValue,
+            lastPublishedValue: props.initialValue
         };
     }
 
@@ -28,7 +29,10 @@ class InputTime extends React.Component {
         let value = this.state.value;
 
         if (value.match(InputTime.timeRegex)) {
-            this.updateState(this.format(), true);
+            this.updateState(this.format(), true)
+                .then(function () {
+                    this.props.onBlur(e)
+                }.bind(this));
             return;
         }
 
@@ -38,7 +42,10 @@ class InputTime extends React.Component {
             let tmpValue = value.substr(0, hourLength) + ':' + value.substr(hourLength, minutesLength);
 
             if (tmpValue.match(InputTime.timeRegex)) {
-                this.updateState(tmpValue, true);
+                this.updateState(tmpValue, true)
+                    .then(function () {
+                        this.props.onBlur(e)
+                    }.bind(this));
                 return;
             }
         }
@@ -51,12 +58,19 @@ class InputTime extends React.Component {
     //endregion
 
     updateState(value, publish) {
-        this.setState({
-            value: value
-        }, function () {
-            if (publish) {
-                this.props.onChange(this.format());
-            }
+        let self = this;
+        return new Promise(function (resolve) {
+            self.setState({
+                value: value
+            }, function () {
+                if (publish && self.state.lastPublishedValue !== value) {
+                    this.props.onChange(self.format());
+                    this.setState({
+                        lastPublishedValue: value
+                    });
+                    resolve();
+                }
+            });
         });
     }
 
@@ -104,7 +118,10 @@ InputTime.timeRegex = /^(([0-1]?[0-9])|(2[0-3]))(:([0-5]?[0-9])?)?$/;
 InputTime.defaultProps = {
     initialValue: '',
     onChange: function () {
+    },
+    onBlur: function () {
     }
+
 };
 
 export default InputTime;
