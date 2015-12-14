@@ -1,9 +1,9 @@
 'use strict';
 
 import React from 'react';
-import Table from './Table.jsx';
+import Table from './../Table.jsx';
 import EntryRow from './EntryRow.jsx';
-import EntriesStore from '../stores/EntriesStore';
+import EntriesStore from '../../stores/EntriesStore';
 
 class EntryTable extends React.Component {
     constructor() {
@@ -26,6 +26,7 @@ class EntryTable extends React.Component {
     //endregion
 
     //region callbacks
+
     onChange(state) {
         this.setState(state);
     }
@@ -53,7 +54,7 @@ class EntryTable extends React.Component {
                     <th>Comment</th>
                     <th className="two wide">Duration</th>
                     <th className="two wide">Working time</th>
-                    <th className="two wide"/>
+                    <th className="two wide">Actions</th>
                 </tr>
                 </thead>
                 <tbody>

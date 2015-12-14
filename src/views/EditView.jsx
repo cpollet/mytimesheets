@@ -4,8 +4,10 @@ import React from 'react';
 
 import {Button} from 'react-semantify';
 
-import EntryTable from './EntryTable.jsx';
-import ConfirmedButton from './ConfirmedButton.jsx';
+import EntryTable from './../components/edit/EntryTable.jsx';
+import ConfirmedButton from './../components/ConfirmedButton.jsx';
+
+import EntriesAction from '../actions/EntriesActions';
 
 class Entries extends React.Component {
 
@@ -15,6 +17,10 @@ class Entries extends React.Component {
         EntriesAction.deleteAll();
     }
 
+    onDisplaySummary() {
+        this.props.history.pushState(null, '/summary');
+    }
+
     // endregion
 
     render() {
@@ -22,8 +28,7 @@ class Entries extends React.Component {
             <div>
                 <EntryTable/>
                 <div className="ui grid">
-                    <div
-                        className="sixteen wide right aligned column">
+                    <div className="sixteen wide right aligned column">
                         <ConfirmedButton
                             confirmationTitle="Reset timesheet"
                             confirmationText="Are you sure you want to reset the current timesheet?"
@@ -36,7 +41,7 @@ class Entries extends React.Component {
                                 Reset
                             </Button>
                         </ConfirmedButton>
-                        <Button className="positive labeled icon" onClick={this.onDisplaySummary}>
+                        <Button className="positive labeled icon" onClick={this.onDisplaySummary.bind(this)}>
                             <i className="checkmark icon"/>
                             Summary
                         </Button>

@@ -35,11 +35,13 @@
   },
   "dependencies": {
     "alt": "^0.17.9",
+    "history": "^1.13.1",
     "jquery": "^2.1.4",
     "lodash": "^3.10.1",
     "moment": "^2.10.6",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
+    "react-router": "^1.0.2",
     "react-semantify": "^0.4.1",
     "semantic-ui": "^2.1.6"
   }

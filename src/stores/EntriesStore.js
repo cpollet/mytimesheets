@@ -12,16 +12,20 @@ class EntriesStore {
         this.loading = false;
 
         this.load();
+        this.computeSelectedDuration();
 
         this.bindListeners({
             handleAddEntry: EntriesActions.ADD_ENTRY,
             handleUpdateEntry: EntriesActions.UPDATE_ENTRY,
             handleDeleteEntry: EntriesActions.DELETE_ENTRY,
-            handleDeleteAll: EntriesActions.DELETE_ALL
+            handleDeleteAll: EntriesActions.DELETE_ALL,
+            handleSelectEntry: EntriesActions.SELECT_ENTRY,
+            handleAccountSelected: EntriesActions.ACCOUNT_SELECTED
         });
     }
 
     //region handlers
+
     handleAddEntry(entry) {
         this.id++;
 
@@ -66,6 +70,31 @@ class EntriesStore {
         this.save();
     }
 
+    handleSelectEntry(entry) {
+        let index = _.findIndex(this.entries, {id: entry.id});
+
+        this.entries[index] = _.assign(this.entries[index], {
+            selected: entry.selected
+        });
+
+        this.computeSelectedDuration();
+    }
+
+    handleAccountSelected() {
+        let selectedEntries = _.filter(this.entries, {selected: true});
+
+        _.forEach(selectedEntries, function (value) {
+            let index = _.findIndex(this.entries, {id: value.id});
+
+            this.entries[index] = _.assign(this.entries[index], {
+                selected: false,
+                accounted: true
+            });
+        }.bind(this));
+
+        this.computeSelectedDuration();
+    }
+
     //endregion
 
     sort() {
@@ -103,6 +132,24 @@ class EntriesStore {
         }
 
         this.totalDuration = hhmm(totalDuration);
+    }
+
+    computeSelectedDuration() {
+        let hhmm = function (minutes) {
+            let hours = Math.floor(minutes / 60);
+            minutes = minutes % 60;
+            return hours + ':' + `0${minutes}`.slice(-2);
+        };
+
+        if (this.entries.length == 0) {
+            this.selectedDuration = '0:00';
+            return;
+        }
+
+        let selectedEntries = _.filter(this.entries, {selected: true});
+        let duration = _.reduce(selectedEntries, (total, entry) => total + entry._duration, 0);
+
+        this.selectedDuration = hhmm(duration);
     }
 
     save() {

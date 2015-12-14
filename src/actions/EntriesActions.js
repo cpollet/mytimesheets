@@ -15,7 +15,15 @@ class EntriesActions {
         this.dispatch(id);
     }
 
-    deleteAll(id) {
+    deleteAll() {
+        this.dispatch();
+    }
+
+    selectEntry(entry) {
+        this.dispatch(entry);
+    }
+
+    accountSelected() {
         this.dispatch();
     }
 }

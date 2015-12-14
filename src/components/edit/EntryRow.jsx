@@ -3,9 +3,9 @@
 import React from 'react';
 import _ from 'lodash';
 import {Input, Button, Checkbox} from 'react-semantify';
-import ConfirmedButton from './ConfirmedButton.jsx';
-import InputTime from './InputTime.jsx';
-import EntriesAction from '../actions/EntriesActions';
+import ConfirmedButton from './../ConfirmedButton.jsx';
+import InputTime from './../InputTime.jsx';
+import EntriesAction from '../../actions/EntriesActions';
 
 class EntryRow extends React.Component {
     constructor(props) {

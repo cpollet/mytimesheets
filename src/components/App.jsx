@@ -4,8 +4,6 @@ import React from 'react';
 
 import Container from './Container.jsx';
 import MiniNotification from './MiniNotification.jsx';
-import Entries from './Entries.jsx';
-import EntriesAction from '../actions/EntriesActions';
 import EntriesStore from '../stores/EntriesStore';
 
 class App extends React.Component {
@@ -17,10 +15,6 @@ class App extends React.Component {
     }
 
     //region event handlers
-
-    onDisplaySummary() {
-        console.log('summary');
-    }
 
     onChange() {
         this.setState({
@@ -52,7 +46,7 @@ class App extends React.Component {
                     text="Changes saved"
                 />
                 <Container style={{margin: '10px'}}>
-                    <Entries/>
+                    {this.props.children}
                 </Container>
             </div>
         );

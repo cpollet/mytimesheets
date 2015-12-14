@@ -7,11 +7,9 @@ import ClassNameEnhance from '../lib/ClassNameEnhance.jsx';
 class Table extends React.Component {
     render() {
         return (
-            <div>
-                <table className={this.props.className}>
-                    {this.props.children}
-                </table>
-            </div>
+            <table className={this.props.className}>
+                {this.props.children}
+            </table>
         );
     }
 }
