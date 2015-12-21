@@ -33,7 +33,7 @@ class EntryRow extends React.Component {
 
     render() {
         return (
-            <tr id={this.props.id}>
+            <tr id={this.props.id} className="mouseover highlight">
                 <td>{this.props.text}</td>
                 <td>{this.props.duration}</td>
                 <td>

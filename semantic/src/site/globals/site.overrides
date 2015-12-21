@@ -1,3 +1,6 @@
 /*******************************
          Site Overrides
 *******************************/
+.mouseover.highlight:hover {
+    background-color: lightyellow;
+}
